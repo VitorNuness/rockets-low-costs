@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
-import { RegisterController } from './Controllers/Auth/register.controller';
+import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from './Controllers/Auth/auth.module';
 
 @Module({
-  imports: [],
-  controllers: [RegisterController],
+  imports: [
+    MongooseModule.forRoot('mongodb://127.0.0.1:27017/rockets_low_costs'),
+    AuthModule,
+  ],
+  controllers: [],
   providers: [],
 })
 export class AppModule {}
