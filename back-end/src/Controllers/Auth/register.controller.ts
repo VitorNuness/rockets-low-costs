@@ -1,5 +1,12 @@
-import { Body, Controller, Injectable, Post } from '@nestjs/common';
-import { RegisterUserDTO } from '../../../src/DTOs/Auth/register_user.dto';
+import {
+  Body,
+  Controller,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  Post,
+} from '@nestjs/common';
+import { RegisterUserDTO } from '../../DTOs/Auth/register_user.dto';
 import { User } from '../../../src/Schemas/user.schema';
 import { UserService } from '../../Services/user.service';
 
@@ -10,7 +17,14 @@ export class RegisterController {
 
   @Post()
   async register(@Body() registerUserDTO: RegisterUserDTO): Promise<User> {
-    const user = await this.userService.store(registerUserDTO);
-    return user;
+    try {
+      const user = await this.userService.store(registerUserDTO);
+      return user;
+    } catch (error) {
+      throw new HttpException(
+        `Registro falhou: ${error.message}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }

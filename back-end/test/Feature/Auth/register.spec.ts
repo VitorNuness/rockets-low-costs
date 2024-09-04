@@ -120,4 +120,19 @@ describe('RegisterController', () => {
     const countUsers = await userModel.countDocuments().exec();
     expect(countUsers).toBe(1);
   });
+
+  test('dont create an user if name already exist in database', async () => {
+    await userModel.deleteMany();
+
+    const userDb = new userModel({ name: 'Joe', age: 21 });
+    await userDb.save();
+
+    request(app.getHttpServer())
+      .post('/register')
+      .send({ name: 'Joe', age: 32 })
+      .expect(400);
+
+    const user = await userModel.findOne({ name: 'Joe' }).exec();
+    expect(user.age).toBe(21);
+  });
 });
