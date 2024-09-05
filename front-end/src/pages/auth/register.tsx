@@ -43,7 +43,7 @@ export default function Register() {
             <Error
                 title="Erro ao cadastrar!"
                 description={errors}
-                isVisible={errors.length > 0}
+                isVisible={errors?.length > 0}
             />
             <Center>
                 <HomeImage />
