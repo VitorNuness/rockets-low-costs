@@ -8,6 +8,14 @@ class AuthDataService {
             throw error;
         }
     }
+
+    async login(data: { name: string }) {
+        try {
+            return await http.post("/login", data);
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default new AuthDataService();
