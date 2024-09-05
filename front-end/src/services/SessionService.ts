@@ -1,8 +1,8 @@
 class SessionService {
-    async setUserInSession(name: string) {
+    async setUserInSession(user: { id: string; name: string; age: number }) {
         await this.clearSession();
-
-        sessionStorage.setItem("user", name);
+        user.name = user.name[0].toLocaleUpperCase() + user.name.slice(1);
+        sessionStorage.setItem("user", JSON.stringify(user));
     }
 
     async clearSession() {
