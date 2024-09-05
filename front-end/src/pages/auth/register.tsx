@@ -1,4 +1,7 @@
+import { Error } from "@/components/error";
 import HomeImage from "@/components/images/home_image";
+import AuthDataService from "@/services/AuthDataService";
+import SessionService from "@/services/SessionService";
 import {
     Button,
     Center,
@@ -13,15 +16,35 @@ import {
 import { useState } from "react";
 
 export default function Register() {
-    const [name, setName] = useState("");
-    const [age, setAge] = useState("");
+    const [nameValue, setNameValue] = useState("");
+    const [ageValue, setAgeValue] = useState("");
+    const [errors, setErrors] = useState([]);
 
-    function handleSubmit() {
-        console.log("teste");
+    async function handleSubmit() {
+        try {
+            const age = parseInt(ageValue);
+            const name = nameValue;
+            const response = await AuthDataService.register({ name, age });
+
+            await SessionService.setUserInSession(response.data.name);
+
+            setNameValue("");
+            setAgeValue("");
+        } catch (error: any) {
+            setErrors(error?.response?.data?.message);
+            setTimeout(() => {
+                setErrors([]);
+            }, 5000);
+        }
     }
 
     return (
         <Container paddingTop={"12vh"}>
+            <Error
+                title="Erro ao cadastrar!"
+                description={errors}
+                isVisible={errors.length > 0}
+            />
             <Center>
                 <HomeImage />
             </Center>
@@ -32,25 +55,17 @@ export default function Register() {
                 <FormControl>
                     <VStack spacing={4}>
                         <Input
-                            value={name}
-                            onChange={(e) => {
-                                setName(e.target.value);
-                            }}
+                            value={nameValue}
+                            onChange={(e) => setNameValue(e.target.value)}
                             placeholder="Digite seu nome"
                         />
                         <NumberInput
                             width={"100%"}
                             size={"lg"}
-                            min={1}
-                            max={110}
+                            value={ageValue}
+                            onChange={(value) => setAgeValue(value)}
                         >
-                            <NumberInputField
-                                value={age}
-                                onChange={(e) => {
-                                    setAge(e.target.value);
-                                }}
-                                placeholder="Digite sua idade"
-                            />
+                            <NumberInputField placeholder="Digite sua idade" />
                         </NumberInput>
                         <Button onClick={handleSubmit}>Cadastrar</Button>
                     </VStack>
