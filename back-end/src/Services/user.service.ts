@@ -9,6 +9,7 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async store(registerUserDTO: RegisterUserDTO): Promise<User> {
+    registerUserDTO.name = registerUserDTO.name.toLocaleLowerCase();
     const existingUser = await this.findUserByName(registerUserDTO.name);
     if (!existingUser) {
       const createdUser = new this.userModel(registerUserDTO);
@@ -18,6 +19,7 @@ export class UserService {
   }
 
   async findUserByName(name: string): Promise<User> {
+    name = name.toLocaleLowerCase();
     return await this.userModel.findOne({ name: name }).exec();
   }
 }
