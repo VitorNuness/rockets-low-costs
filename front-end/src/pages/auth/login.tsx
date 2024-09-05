@@ -1,35 +1,31 @@
-import { Error } from "@/components/error";
-import HomeImage from "@/components/images/home_image";
-import AuthDataService from "@/services/AuthDataService";
-import SessionService from "@/services/SessionService";
 import {
     Button,
     Center,
     Container,
+    Flex,
     FormControl,
     Input,
-    NumberInput,
-    NumberInputField,
+    Link,
     Text,
     VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { Error, HomeImage } from "@/components";
+import AuthDataService from "@/services/AuthDataService";
+import SessionService from "@/services/SessionService";
 
-export default function Register() {
+export default function Login() {
     const [nameValue, setNameValue] = useState("");
-    const [ageValue, setAgeValue] = useState("");
     const [errors, setErrors] = useState([]);
 
     async function handleSubmit() {
         try {
-            const age = parseInt(ageValue);
             const name = nameValue;
-            const response = await AuthDataService.register({ name, age });
+            const response = await AuthDataService.login({ name });
 
             await SessionService.setUserInSession(response.data.name);
 
             setNameValue("");
-            setAgeValue("");
         } catch (error: any) {
             setErrors(error?.response?.data?.message);
             setTimeout(() => {
@@ -50,7 +46,7 @@ export default function Register() {
             </Center>
             <VStack paddingX={12} spacing={4} alignItems={"start"}>
                 <Text fontSize="2xl" marginTop={10}>
-                    Cadastrar
+                    Login
                 </Text>
                 <FormControl>
                     <VStack spacing={4}>
@@ -59,17 +55,18 @@ export default function Register() {
                             onChange={(e) => setNameValue(e.target.value)}
                             placeholder="Digite seu nome"
                         />
-                        <NumberInput
-                            width={"100%"}
-                            size={"lg"}
-                            value={ageValue}
-                            onChange={(value) => setAgeValue(value)}
-                        >
-                            <NumberInputField placeholder="Digite sua idade" />
-                        </NumberInput>
-                        <Button onClick={handleSubmit}>Cadastrar</Button>
+                        <Button onClick={handleSubmit}>Entrar</Button>
                     </VStack>
                 </FormControl>
+                <Flex
+                    gap={4}
+                    width={"100%"}
+                    marginTop={10}
+                    justifyContent={"center"}
+                >
+                    <Text>Não tem conta?</Text>
+                    <Link href="/auth/register">Cadastrar-se aqui</Link>
+                </Flex>
             </VStack>
         </Container>
     );
