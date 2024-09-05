@@ -20,7 +20,7 @@ export class RegisterController {
       return user;
     } catch (error) {
       throw new HttpException(
-        `Registro falhou: ${error.message}`,
+        { message: [error.message] },
         HttpStatus.BAD_REQUEST,
       );
     }
