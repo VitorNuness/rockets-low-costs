@@ -1,7 +1,6 @@
 import { Error } from "@/components/error";
 import HomeImage from "@/components/images/home_image";
 import AuthDataService from "@/services/AuthDataService";
-import SessionService from "@/services/SessionService";
 import {
     Button,
     Center,
@@ -13,9 +12,11 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function Register() {
+    const router = useRouter();
     const [nameValue, setNameValue] = useState("");
     const [ageValue, setAgeValue] = useState("");
     const [errors, setErrors] = useState([]);
@@ -26,7 +27,10 @@ export default function Register() {
             const name = nameValue;
             const response = await AuthDataService.register({ name, age });
 
-            await SessionService.setUserInSession(response.data.name);
+            router.push({
+                pathname: "/auth/age_confirmation",
+                query: await response?.data,
+            });
 
             setNameValue("");
             setAgeValue("");
@@ -67,9 +71,9 @@ export default function Register() {
                         >
                             <NumberInputField placeholder="Digite sua idade" />
                         </NumberInput>
-                        <Button onClick={handleSubmit}>Cadastrar</Button>
                     </VStack>
                 </FormControl>
+                <Button onClick={handleSubmit}>Cadastrar</Button>
             </VStack>
         </Container>
     );
