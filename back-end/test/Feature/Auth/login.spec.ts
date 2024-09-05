@@ -49,7 +49,7 @@ describe('LoginController', () => {
   test('response not found if user name dont exists in database', async () => {
     await userModel.deleteMany();
 
-    const response = await request(app.getHttpServer())
+    await request(app.getHttpServer())
       .post('/login')
       .send({ name: 'Joe' })
       .expect(404);
