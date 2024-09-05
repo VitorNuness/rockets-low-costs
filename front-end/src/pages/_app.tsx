@@ -2,7 +2,12 @@ import "@/styles/globals.css";
 import "@fontsource/poppins";
 import type { AppProps } from "next/app";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
-import { defaultButton, defaultInput, defaultLink } from "@/components";
+import {
+    defaultButton,
+    defaultCard,
+    defaultInput,
+    defaultLink,
+} from "@/components";
 
 const theme = extendTheme({
     fonts: {
@@ -11,6 +16,7 @@ const theme = extendTheme({
     },
     components: {
         Button: defaultButton,
+        Card: defaultCard,
         Input: defaultInput,
         Link: defaultLink,
         NumberInput: defaultInput,

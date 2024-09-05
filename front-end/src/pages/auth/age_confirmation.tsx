@@ -14,12 +14,7 @@ export default function AgeConfirmation() {
 
     return (
         <Center height={"100vh"}>
-            <Card
-                width={"490px"}
-                height={"374px"}
-                variant={"outline"}
-                borderColor={"#457B9D"}
-            >
+            <Card width={"490px"} height={"374px"} variant={"outline"}>
                 <CardBody
                     flexDirection={"column"}
                     textAlign={"center"}
