@@ -7,7 +7,7 @@ export default function AgeConfirmation() {
     const user: any = router?.query;
 
     async function handleSubmit() {
-        await SessionService.setUserInSession(user?.name);
+        await SessionService.setUserInSession(user);
 
         router.push("/");
     }
