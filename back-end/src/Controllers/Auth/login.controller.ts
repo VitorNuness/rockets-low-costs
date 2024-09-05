@@ -20,7 +20,7 @@ export class LoginController {
     const user = await this.userService.findUserByName(loginDTO.name);
     if (!user) {
       throw new HttpException(
-        'Este nome não está cadastrado.',
+        { message: ['Este nome não está cadastrado.'] },
         HttpStatus.NOT_FOUND,
       );
     }
