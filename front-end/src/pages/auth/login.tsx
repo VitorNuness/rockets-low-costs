@@ -12,18 +12,22 @@ import {
 import { useState } from "react";
 import { Error, HomeImage } from "@/components";
 import AuthDataService from "@/services/AuthDataService";
-import SessionService from "@/services/SessionService";
+import { useRouter } from "next/router";
 
 export default function Login() {
+    const router = useRouter();
     const [nameValue, setNameValue] = useState("");
     const [errors, setErrors] = useState([]);
 
     async function handleSubmit() {
         try {
             const name = nameValue;
-            const response = await AuthDataService.login({ name });
+            const response: any = await AuthDataService.login({ name });
 
-            await SessionService.setUserInSession(response.data.name);
+            router.push({
+                pathname: "/auth/age_confirmation",
+                query: await response?.data,
+            });
 
             setNameValue("");
         } catch (error: any) {
@@ -55,8 +59,8 @@ export default function Login() {
                             onChange={(e) => setNameValue(e.target.value)}
                             placeholder="Digite seu nome"
                         />
-                        <Button onClick={handleSubmit}>Entrar</Button>
                     </VStack>
+                    <Button onClick={handleSubmit}>Entrar</Button>
                 </FormControl>
                 <Flex
                     gap={4}
