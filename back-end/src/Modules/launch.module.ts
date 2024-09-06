@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LaunchController } from '../Controllers/launch.controller';
-import { Launch, LaunchSchema } from '../Schemas/launche.schema';
+import { Launch, LaunchSchema } from '../Schemas/launch.schema';
 import { LaunchService } from '../Services/launch.service';
 import { UserService } from '../Services/user.service';
 import { User, UserSchema } from '../Schemas/user.schema';

@@ -1,7 +1,8 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { Document } from 'mongoose';
 import { LaunchService } from '../Services/launch.service';
-import { Launch } from '../Schemas/launche.schema';
+import { Launch } from '../Schemas/launch.schema';
+import { LaunchDTO } from '../DTOs/launch.dto';
 
 @Controller(':user/launches')
 export class LaunchController {
@@ -12,5 +13,14 @@ export class LaunchController {
     @Param('user') user: string,
   ): Promise<Document<unknown, {}, Launch | undefined>[]> {
     return await this.launchService.getUserLaunches(user);
+  }
+
+  @Post()
+  async postUserLaunch(
+    @Param('user') user: string,
+    @Body() launchDTO: LaunchDTO,
+  ): Promise<void> {
+    await this.launchService.storeUserLaunch(user, launchDTO);
+    return;
   }
 }
