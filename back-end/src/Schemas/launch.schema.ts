@@ -43,9 +43,12 @@ export class Launch {
   total: number | null;
 
   @Prop({ required: true })
-  data: Date;
+  date: Date;
 
-  @Prop({ type: Types.ObjectId, ref: 'User' })
+  @Prop()
+  status: boolean;
+
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   user: ObjectId;
 }
 
