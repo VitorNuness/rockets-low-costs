@@ -3,8 +3,9 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import { AuthModule } from '../src/Controllers/Auth/auth.module';
-import { MissionController } from '../src/Controllers/mission.controller';
+import { AuthModule } from '../src/Modules/auth.module';
+import { MissionModule } from '../src/Modules/mission.module';
+import { LaunchModule } from 'src/Modules/launch.module';
 
 let mongo: MongoMemoryServer;
 let app: INestApplication;
@@ -15,8 +16,14 @@ beforeAll(async () => {
   await mongoose.connect(uri);
 
   const moduleRef = await Test.createTestingModule({
-    imports: [AuthModule, MongooseModule.forRoot(uri)],
-    controllers: [MissionController],
+    imports: [
+      AuthModule,
+      MissionModule,
+      LaunchModule,
+      MongooseModule.forRoot(uri),
+    ],
+    providers: [],
+    controllers: [],
   }).compile();
 
   app = moduleRef.createNestApplication();
