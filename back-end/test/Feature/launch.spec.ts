@@ -149,10 +149,104 @@ describe('Launch resources', () => {
 
   describe('putUserLaunchProfit', () => {
     it('should be access the profit update route', async () => {
+      await userModel.deleteMany();
+      const userDb = new userModel({ name: 'joe', age: 21 });
+      const user = await userDb.save();
+
+      await launchModel.deleteMany();
+      let launchDb = new launchModel({
+        rocket: {
+          name: 'Falcon 9',
+          status: true,
+          cost: 50000000,
+          image: 'falcon9.png',
+        },
+        mission: {
+          missionId: 1,
+          name: 'Starlink 1',
+          year: '2024',
+        },
+        profit: 5,
+        date: now(),
+        status: true,
+        user: userDb._id,
+      });
+      await launchDb.save();
+
       await request(app.getHttpServer())
         .put('/joe/launches')
-        .send({ profit: 10 })
+        .send({ launchId: launchDb._id, profit: 10 })
         .expect(200);
+    });
+
+    it('should be update a launch profit', async () => {
+      await userModel.deleteMany();
+      const userDb = new userModel({ name: 'joe', age: 21 });
+      const user = await userDb.save();
+
+      await launchModel.deleteMany();
+      let launchDb = new launchModel({
+        rocket: {
+          name: 'Falcon 9',
+          status: true,
+          cost: 50000000,
+          image: 'falcon9.png',
+        },
+        mission: {
+          missionId: 1,
+          name: 'Starlink 1',
+          year: '2024',
+        },
+        profit: 5,
+        date: now(),
+        status: true,
+        user: userDb._id,
+      });
+      await launchDb.save();
+
+      await request(app.getHttpServer())
+        .put('/joe/launches')
+        .send({ launchId: launchDb._id, profit: 10 });
+
+      let launch = await launchModel.findById(launchDb._id).exec();
+
+      expect(launch.profit).toBe(10);
+      expect(launch.total).toBe(launch.rocket.cost * (1 + 10 / 100));
+    });
+
+    it('should be delete a launch profit with receive a null profit from request', async () => {
+      await userModel.deleteMany();
+      const userDb = new userModel({ name: 'joe', age: 21 });
+      const user = await userDb.save();
+
+      await launchModel.deleteMany();
+      let launchDb = new launchModel({
+        rocket: {
+          name: 'Falcon 9',
+          status: true,
+          cost: 50000000,
+          image: 'falcon9.png',
+        },
+        mission: {
+          missionId: 1,
+          name: 'Starlink 1',
+          year: '2024',
+        },
+        profit: 5,
+        date: now(),
+        status: true,
+        user: userDb._id,
+      });
+      await launchDb.save();
+
+      await request(app.getHttpServer())
+        .put('/joe/launches')
+        .send({ launchId: launchDb._id, profit: null });
+
+      let launch = await launchModel.findById(launchDb._id).exec();
+
+      expect(launch.profit).toBe(null);
+      expect(launch.total).toBe(null);
     });
   });
 });

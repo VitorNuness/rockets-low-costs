@@ -27,8 +27,12 @@ export class LaunchController {
   @Put()
   async putUserLaunchProfit(
     @Param('user') username: string,
-    @Body() profit: number | null,
+    @Body() data: { launchId: string; profit: number | null },
   ) {
-    return;
+    return await this.launchService.updateUserLaunchProfit(
+      username,
+      data.launchId,
+      data.profit,
+    );
   }
 }

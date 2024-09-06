@@ -12,6 +12,10 @@ export class LaunchService {
     private userService: UserService,
   ) {}
 
+  async getLaunch(id: string) {
+    return await this.launchModel.findById(id).exec();
+  }
+
   async getUserLaunches(
     userName: string,
   ): Promise<Document<unknown, {}, Launch | undefined>[]> {
@@ -43,5 +47,19 @@ export class LaunchService {
       ...launchDTO,
     });
     return await createdLaunch.save();
+  }
+
+  async updateUserLaunchProfit(
+    userName: string,
+    launchId: string,
+    profit: number | null,
+  ) {
+    const user = await this.userService.findUserByName(userName);
+    const launch = await this.getLaunch(launchId);
+
+    launch.profit = profit;
+    launch.total = profit ? launch.rocket.cost * (1 + profit / 100) : null;
+
+    return await launch.save();
   }
 }
