@@ -56,30 +56,26 @@ export default function Launch() {
                     <Card variant={"outline"} maxWidth={"sm"}>
                         <CardBody>
                             <Image
-                                src={rocket?.flickr_images[0]}
+                                src={rocket?.image}
                                 alt={
                                     "Imagem do foguete está disponível em: " +
-                                    rocket?.flickr_images[0]
+                                    rocket?.image
                                 }
                                 borderRadius="lg"
                                 boxSize={"sm"}
                             />
                             <Stack mt="6" w={"xs"} spacing="2vh">
-                                <Heading size="md">
-                                    {rocket?.rocket_name}
-                                </Heading>
+                                <Heading size="md">{rocket?.name}</Heading>
+                                <Text fontSize={"lg"}>{rocket?.engine}</Text>
                                 <Text fontSize={"lg"}>
-                                    {rocket?.engines.type}
-                                </Text>
-                                <Text fontSize={"lg"}>
-                                    {rocket?.cost_per_launch?.toLocaleString(
-                                        "pt-br",
-                                        { style: "currency", currency: "EUA" }
-                                    )}
+                                    {rocket?.cost?.toLocaleString("pt-br", {
+                                        style: "currency",
+                                        currency: "EUA",
+                                    })}
                                 </Text>
                                 <Text fontSize={"lg"}>
                                     Situação:{" "}
-                                    {rocket?.active ? "Ativo" : "Inativo"}
+                                    {rocket?.status ? "Ativo" : "Inativo"}
                                 </Text>
                             </Stack>
                         </CardBody>

@@ -16,8 +16,17 @@ export default function MissionCard(data: { mission: any; rockets: any }) {
         (r: any) => r.rocket_id === data.mission.rocket.rocket_id
     );
 
-    async function openRocketLaunch(rocket: any) {
-        await RocketService.saveRocket(rocket).then(() => {
+    async function openRocketLaunch(rocket: any, mission: string) {
+        const rocketData = {
+            id: rocket.rocket_id,
+            name: rocket.rocket_name,
+            engine: rocket.engines.type,
+            cost: rocket?.cost_per_launch,
+            image: rocket.flickr_images[0],
+            mission: mission,
+            status: rocket.active,
+        };
+        await RocketService.saveRocket(rocketData).then(() => {
             router.push("/launch");
             router.reload();
         });
@@ -37,7 +46,14 @@ export default function MissionCard(data: { mission: any; rockets: any }) {
                     <Text>{data.mission.mission_name}</Text>
                     <Text>{data.mission.launch_year}</Text>
                 </Stack>
-                <Button onClick={async () => await openRocketLaunch(rocket)}>
+                <Button
+                    onClick={async () =>
+                        await openRocketLaunch(
+                            rocket,
+                            data.mission.mission_name
+                        )
+                    }
+                >
                     Lançar foguete
                 </Button>
             </CardBody>
