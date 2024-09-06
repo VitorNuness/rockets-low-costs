@@ -19,9 +19,8 @@ export class LaunchController {
   async postUserLaunch(
     @Param('user') user: string,
     @Body() launchDTO: LaunchDTO,
-  ): Promise<void> {
-    await this.launchService.storeUserLaunch(user, launchDTO);
-    return;
+  ) {
+    return await this.launchService.storeUserLaunch(user, launchDTO);
   }
 
   @Put()
