@@ -28,6 +28,7 @@ describe('Mission resources', () => {
     const launchDb = new launchModel({
       rocket: {
         name: 'Falcon 9',
+        engine: 'mmmm',
         status: true,
         cost: 50000000,
         image: 'falcon9.png',

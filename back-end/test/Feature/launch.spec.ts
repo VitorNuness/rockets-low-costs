@@ -31,6 +31,7 @@ describe('Launch resources', () => {
       const launchDb = new launchModel({
         rocket: {
           name: 'Falcon 9',
+          engine: 'mmmm',
           status: true,
           cost: 50000000,
           image: 'falcon9.png',
@@ -64,6 +65,7 @@ describe('Launch resources', () => {
       let launch = {
         rocket: {
           name: 'Falcon 9',
+          engine: 'mmmm',
           status: true,
           cost: 50000000,
           image: 'falcon9.png',
@@ -93,6 +95,7 @@ describe('Launch resources', () => {
       let launch = {
         rocket: {
           name: 'Falcon 9',
+          engine: 'mmmm',
           status: true,
           cost: 50000000,
           image: 'falcon9.png',
@@ -123,6 +126,7 @@ describe('Launch resources', () => {
       let launch = {
         rocket: {
           name: 'Falcon 9',
+          engine: 'mmmm',
           status: false,
           cost: 50000000,
           image: 'falcon9.png',
@@ -157,6 +161,7 @@ describe('Launch resources', () => {
       let launchDb = new launchModel({
         rocket: {
           name: 'Falcon 9',
+          engine: 'mmmm',
           status: true,
           cost: 50000000,
           image: 'falcon9.png',
@@ -188,6 +193,7 @@ describe('Launch resources', () => {
       let launchDb = new launchModel({
         rocket: {
           name: 'Falcon 9',
+          engine: 'mmmm',
           status: true,
           cost: 50000000,
           image: 'falcon9.png',
@@ -223,6 +229,7 @@ describe('Launch resources', () => {
       let launchDb = new launchModel({
         rocket: {
           name: 'Falcon 9',
+          engine: 'mmmm',
           status: true,
           cost: 50000000,
           image: 'falcon9.png',
