@@ -1,6 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Document, Model } from 'mongoose';
 import { User } from '../Schemas/user.schema';
 import { RegisterUserDTO } from '../DTOs/Auth/register_user.dto';
 
@@ -8,7 +8,9 @@ import { RegisterUserDTO } from '../DTOs/Auth/register_user.dto';
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async store(registerUserDTO: RegisterUserDTO): Promise<User> {
+  async store(
+    registerUserDTO: RegisterUserDTO,
+  ): Promise<Document<unknown, {}, User>> {
     registerUserDTO.name = registerUserDTO.name.trim().toLocaleLowerCase();
     const existingUser = await this.findUserByName(registerUserDTO.name);
     if (!existingUser) {
@@ -18,7 +20,7 @@ export class UserService {
     throw new ConflictException('Este nome já foi cadastrado.');
   }
 
-  async findUserByName(name: string): Promise<User> {
+  async findUserByName(name: string): Promise<Document<unknown, {}, User>> {
     name = name.trim().toLocaleLowerCase();
     return await this.userModel.findOne({ name: name }).exec();
   }
