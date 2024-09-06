@@ -20,8 +20,8 @@ export class UserService {
     throw new ConflictException('Este nome já foi cadastrado.');
   }
 
-  async findUserByName(name: string): Promise<Document<unknown, {}, User>> {
-    name = name.trim().toLocaleLowerCase();
+  async findUserByName(username: string): Promise<Document<unknown, {}, User>> {
+    let name = username.trim().toLocaleLowerCase();
     return await this.userModel.findOne({ name: name }).exec();
   }
 }
