@@ -3,7 +3,7 @@ import { app } from '../setup';
 import { Model, now } from 'mongoose';
 import { getModelToken } from '@nestjs/mongoose';
 import { User, UserDocument } from '../../src/Schemas/user.schema';
-import { Launch, LaunchDocument } from '../../src/Schemas/launche.schema';
+import { Launch, LaunchDocument } from '../../src/Schemas/launch.schema';
 
 describe('Mission resources', () => {
   let userModel: Model<UserDocument>;
@@ -39,7 +39,7 @@ describe('Mission resources', () => {
       },
       profit: 5,
       total: 60000000,
-      data: now(),
+      date: now(),
       user: user._id,
     });
     await launchDb.save();
