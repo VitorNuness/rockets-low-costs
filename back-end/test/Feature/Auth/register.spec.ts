@@ -112,9 +112,9 @@ describe('RegisterController', () => {
       .send({ name: 'Joe', age: 32 })
       .expect(201);
 
-    const user = await userModel.findOne({ name: 'Joe' }).exec();
+    const user = await userModel.findOne({ name: 'joe' }).exec();
     expect(user).not.toBeNull();
-    expect(user.name).toBe('Joe');
+    expect(user.name).toBe('joe');
     expect(user.age).toBe(32);
 
     const countUsers = await userModel.countDocuments().exec();

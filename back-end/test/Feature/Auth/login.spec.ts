@@ -31,10 +31,10 @@ describe('LoginController', () => {
       });
   });
 
-  it('should be find an user by name in database', async () => {
+  it('should find a user by name in database', async () => {
     await userModel.deleteMany();
 
-    const userDb = new userModel({ name: 'Joe', age: 21 });
+    const userDb = new userModel({ name: 'joe', age: 21 });
     await userDb.save();
 
     const response = await request(app.getHttpServer())
@@ -42,11 +42,11 @@ describe('LoginController', () => {
       .send({ name: 'Joe' })
       .expect(200);
 
-    expect(response.body).toHaveProperty('name', 'Joe');
+    expect(response.body).toHaveProperty('name', 'joe');
     expect(response.body).toHaveProperty('age', 21);
   });
 
-  test('response not found if user name dont exists in database', async () => {
+  it('should respond with not found if user name does not exist in database', async () => {
     await userModel.deleteMany();
 
     await request(app.getHttpServer())
