@@ -114,4 +114,13 @@ describe('Launch resources', () => {
       expect(launches.length).toBe(1);
     });
   });
+
+  describe('putUserLaunchProfit', () => {
+    it('should be access the profit update route', async () => {
+      await request(app.getHttpServer())
+        .put('/joe/launches')
+        .send({ profit: 10 })
+        .expect(200);
+    });
+  });
 });

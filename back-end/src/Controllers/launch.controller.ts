@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { Document } from 'mongoose';
 import { LaunchService } from '../Services/launch.service';
 import { Launch } from '../Schemas/launch.schema';
@@ -21,6 +21,14 @@ export class LaunchController {
     @Body() launchDTO: LaunchDTO,
   ): Promise<void> {
     await this.launchService.storeUserLaunch(user, launchDTO);
+    return;
+  }
+
+  @Put()
+  async putUserLaunchProfit(
+    @Param('user') username: string,
+    @Body() profit: number | null,
+  ) {
     return;
   }
 }
