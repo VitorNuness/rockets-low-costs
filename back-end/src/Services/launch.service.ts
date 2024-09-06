@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from './user.service';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Document, Model } from 'mongoose';
 import { Launch } from '../Schemas/launche.schema';
 
 @Injectable()
@@ -11,7 +11,9 @@ export class LaunchService {
     private userService: UserService,
   ) {}
 
-  async getUserLaunches(userName: string) {
+  async getUserLaunches(
+    userName: string,
+  ): Promise<Document<unknown, {}, Launch | undefined>[]> {
     const user = await this.userService.findUserByName(userName);
     if (!user) {
       return [];

@@ -5,7 +5,7 @@ import { Test } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { AuthModule } from '../src/Modules/auth.module';
 import { MissionModule } from '../src/Modules/mission.module';
-import { LaunchModule } from 'src/Modules/launch.module';
+import { LaunchModule } from '../src/Modules/launch.module';
 
 let mongo: MongoMemoryServer;
 let app: INestApplication;
