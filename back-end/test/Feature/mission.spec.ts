@@ -34,7 +34,6 @@ describe('Mission resources', () => {
         image: 'falcon9.png',
       },
       mission: {
-        missionId: 1,
         name: 'Starlink 1',
         year: '2024',
       },

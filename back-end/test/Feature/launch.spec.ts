@@ -37,7 +37,6 @@ describe('Launch resources', () => {
           image: 'falcon9.png',
         },
         mission: {
-          missionId: 1,
           name: 'Starlink 1',
           year: '2024',
         },
@@ -71,7 +70,6 @@ describe('Launch resources', () => {
           image: 'falcon9.png',
         },
         mission: {
-          missionId: 1,
           name: 'Starlink 1',
           year: '2024',
         },
@@ -101,7 +99,6 @@ describe('Launch resources', () => {
           image: 'falcon9.png',
         },
         mission: {
-          missionId: 1,
           name: 'Starlink 1',
           year: '2024',
         },
@@ -132,7 +129,6 @@ describe('Launch resources', () => {
           image: 'falcon9.png',
         },
         mission: {
-          missionId: 1,
           name: 'Starlink 1',
           year: '2024',
         },
@@ -167,7 +163,6 @@ describe('Launch resources', () => {
           image: 'falcon9.png',
         },
         mission: {
-          missionId: 1,
           name: 'Starlink 1',
           year: '2024',
         },
@@ -199,7 +194,6 @@ describe('Launch resources', () => {
           image: 'falcon9.png',
         },
         mission: {
-          missionId: 1,
           name: 'Starlink 1',
           year: '2024',
         },
@@ -235,7 +229,6 @@ describe('Launch resources', () => {
           image: 'falcon9.png',
         },
         mission: {
-          missionId: 1,
           name: 'Starlink 1',
           year: '2024',
         },

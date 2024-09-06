@@ -19,9 +19,6 @@ class Rocket {
 
 class Mission {
   @Prop({ required: true })
-  missionId: number;
-
-  @Prop({ required: true })
   name: string;
 
   @Prop({ required: true })
