@@ -113,6 +113,38 @@ describe('Launch resources', () => {
 
       expect(launches.length).toBe(1);
     });
+
+    it('should be cant launch and store profit with inactive rocket', async () => {
+      await userModel.deleteMany();
+      const userDb = new userModel({ name: 'joe', age: 21 });
+      const user = await userDb.save();
+
+      await launchModel.deleteMany();
+      let launch = {
+        rocket: {
+          name: 'Falcon 9',
+          status: false,
+          cost: 50000000,
+          image: 'falcon9.png',
+        },
+        mission: {
+          missionId: 1,
+          name: 'Starlink 1',
+          year: '2024',
+        },
+        profit: 5,
+        date: now(),
+        status: null,
+      };
+
+      await request(app.getHttpServer()).post('/joe/launches').send(launch);
+
+      let launchDB = await launchModel.findOne({ user: user._id }).exec();
+
+      expect(launchDB.status).toBeFalsy();
+      expect(launchDB.total).toBeNull();
+      expect(launchDB.profit).toBeNull();
+    });
   });
 
   describe('putUserLaunchProfit', () => {
