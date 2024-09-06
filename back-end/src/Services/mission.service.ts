@@ -17,7 +17,7 @@ export class MissionService {
     const availableMissions = missions.filter(
       (mission) =>
         !userLaunches.some(
-          (launch) => launch.mission.name === mission.mission_name,
+          (launch: any) => launch.mission.name === mission.mission_name,
         ),
     );
 
