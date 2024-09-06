@@ -1,3 +1,4 @@
+import RocketService from "@/services/RocketService";
 import {
     Card,
     CardBody,
@@ -7,11 +8,20 @@ import {
     Image,
     Text,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 export default function MissionCard(data: { mission: any; rockets: any }) {
+    const router = useRouter();
     const rocket = data.rockets.find(
         (r: any) => r.rocket_id === data.mission.rocket.rocket_id
     );
+
+    async function openRocketLaunch(rocket: any) {
+        await RocketService.saveRocket(rocket).then(() => {
+            router.push("/launch");
+            router.reload();
+        });
+    }
 
     return (
         <Card variant={"outline"}>
@@ -27,7 +37,9 @@ export default function MissionCard(data: { mission: any; rockets: any }) {
                     <Text>{data.mission.mission_name}</Text>
                     <Text>{data.mission.launch_year}</Text>
                 </Stack>
-                <Button>Lançar foguete</Button>
+                <Button onClick={async () => await openRocketLaunch(rocket)}>
+                    Lançar foguete
+                </Button>
             </CardBody>
         </Card>
     );
