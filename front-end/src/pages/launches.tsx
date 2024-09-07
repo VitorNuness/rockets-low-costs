@@ -1,29 +1,25 @@
 import { useEffect, useState } from "react";
 import Header from "@/components/layouts/header";
-import MissionsList from "@/components/missions_list";
 import Container from "@/components/layouts/container";
 import { Center, Spinner } from "@chakra-ui/react";
-import RocketService from "@/services/RocketService";
-import MissionDataService from "@/services/MissionDataService";
+import LaunchDataService from "@/services/LaunchDataService";
+import LaunchesList from "@/components/launches_list";
 
 export default function Home() {
-    const [missions, setMissions] = useState([]);
-    const [rockets, setRockets] = useState([]);
+    const [launches, setLaunches] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
-            setRockets(await RocketService.fetchRockets());
-            setMissions(await MissionDataService.fetchUserLaunchMissions());
+            setLaunches(await LaunchDataService.fetchUserLaunches());
         }
-
         fetchData();
     }, []);
 
     return (
         <Container>
             <Header beforeUser={"Olá "} afterUser=", selecione o lançamento" />
-            {missions?.length > 0 ? (
-                <MissionsList missions={missions} rockets={rockets} />
+            {launches?.length > 0 ? (
+                <LaunchesList launches={launches} />
             ) : (
                 <Center padding={"200"}>
                     <Spinner size={"xl"} />

@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from '../../Schemas/user.schema';
-import { UserService } from '../../Services/user.service';
-import { RegisterController } from './register.controller';
-import { LoginController } from './login.controller';
+import { User, UserSchema } from '../Schemas/user.schema';
+import { UserService } from '../Services/user.service';
+import { RegisterController } from '../Controllers/Auth/register.controller';
+import { LoginController } from '../Controllers/Auth/login.controller';
 
 @Module({
   imports: [
@@ -11,5 +11,6 @@ import { LoginController } from './login.controller';
   ],
   controllers: [RegisterController, LoginController],
   providers: [UserService],
+  exports: [UserService],
 })
 export class AuthModule {}

@@ -9,6 +9,7 @@ import {
 import { LoginDTO } from '../../DTOs/Auth/login.dto';
 import { UserService } from '../../Services/user.service';
 import { User } from '../../Schemas/user.schema';
+import { Document } from 'mongoose';
 
 @Controller('login')
 export class LoginController {
@@ -16,7 +17,9 @@ export class LoginController {
 
   @Post()
   @HttpCode(200)
-  async login(@Body() loginDTO: LoginDTO): Promise<User> {
+  async login(
+    @Body() loginDTO: LoginDTO,
+  ): Promise<Document<unknown, {}, User>> {
     const user = await this.userService.findUserByName(loginDTO.name);
     if (!user) {
       throw new HttpException(
