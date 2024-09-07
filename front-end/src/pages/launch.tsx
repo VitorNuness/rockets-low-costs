@@ -1,5 +1,7 @@
 import Container from "@/components/layouts/container";
 import Header from "@/components/layouts/header";
+import { LaunchInterface } from "@/interfaces/launch.interface";
+import LaunchDataService from "@/services/LaunchDataService";
 import RocketService from "@/services/RocketService";
 import {
     Button,
@@ -22,23 +24,72 @@ import { useEffect, useState } from "react";
 
 export default function Launch() {
     const router = useRouter();
-    const [profitValue, setProfitValue] = useState("");
-    const [dateValue, setDateValue] = useState("");
+    const [profitValue, setProfitValue] = useState(null);
+    const [dateValue, setDateValue] = useState(null);
     const [dateType, setDateType] = useState(false);
     const [rocket, setRocket] = useState<any>(null);
+    const [launch, setLaunch] = useState<LaunchInterface | null>(null);
+
+    async function createOrUpdateLaunch() {
+        try {
+            if (launch) {
+                await LaunchDataService.updateUserLaunchProfit({
+                    launchId: launch._id,
+                    profit: profitValue,
+                }).then(() => {
+                    router.push("/launches");
+                    return;
+                });
+            } else {
+                const launchData = {
+                    id: launch?.id ?? null,
+                    rocket: {
+                        name: rocket?.name,
+                        engine: rocket?.engine,
+                        cost: rocket?.cost,
+                        image: rocket?.image,
+                        status: rocket?.status,
+                    },
+                    mission: {
+                        name: rocket?.mission,
+                        year: rocket?.mission_year,
+                    },
+                    profit: profitValue ? parseInt(profitValue) : null,
+                    date: dateValue ?? Date.now().toString(),
+                    status: launch?.status ?? false,
+                };
+
+                await LaunchDataService.createUserLaunch(launchData).then(
+                    () => {
+                        router.push("/launches");
+                        return;
+                    }
+                );
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     useEffect(() => {
-        async function getRocket() {
+        async function getData() {
             const rocket = await RocketService.getRocket();
+            const launch = await LaunchDataService.getLaunch();
+            setLaunch(launch);
+            if (launch) {
+                setRocket(launch?.rocket);
+                setDateType(true);
+                setProfitValue(launch?.profit?.toString());
+                return;
+            }
 
             if (!rocket) {
                 router.push("/");
                 return;
             }
-
             setRocket(rocket);
         }
-        getRocket();
+        getData();
     }, []);
 
     return (
@@ -92,7 +143,7 @@ export default function Launch() {
                                     <NumberInput
                                         width={"100%"}
                                         size={"lg"}
-                                        value={profitValue}
+                                        value={profitValue ?? ""}
                                         onChange={(value) =>
                                             setProfitValue(value)
                                         }
@@ -102,14 +153,16 @@ export default function Launch() {
                                     <Input
                                         type={dateType ? "date" : "text"}
                                         onFocus={() => setDateType(!dateType)}
-                                        value={dateValue}
-                                        onChange={(e) =>
+                                        value={dateValue ?? ""}
+                                        onChange={(e: any) =>
                                             setDateValue(e.target.value)
                                         }
                                         placeholder="Selecione a data do lançamento"
                                     />
                                 </VStack>
-                                <Button>Realizar lançamento</Button>
+                                <Button onClick={() => createOrUpdateLaunch()}>
+                                    Realizar lançamento
+                                </Button>
                             </FormControl>
                         </CardBody>
                     </Card>
