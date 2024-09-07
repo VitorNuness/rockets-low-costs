@@ -31,7 +31,7 @@ export class LaunchService {
     launchDTO: LaunchDTO,
   ): Promise<Document<unknown, {}, Launch | undefined>> {
     const user = await this.userService.findUserByName(userName);
-
+    launchDTO.status = true;
     if (!launchDTO.rocket.status) {
       launchDTO.status = false;
       launchDTO.profit = null;
